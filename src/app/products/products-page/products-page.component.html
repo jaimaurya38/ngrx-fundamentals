@@ -7,7 +7,7 @@
     <app-products-list
       [total]="total"
       [products]="products"
-      [showProductCode]="showProductCode"
+      [showProductCode]="showProductCod$ | async"
       (toggleProductCode)="toggleShowProductCode()"
     ></app-products-list>
   </div>
