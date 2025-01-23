@@ -16,6 +16,11 @@ export const selectProductsShowProductCode = createSelector(
     (state) => state.showProdctCode
 );
 
+export const selectProductsErrorMessage = createSelector(
+    selectProductsState,
+    (state) => state.errorMessage
+);
+
 export const selectProductsLoading = createSelector(
     selectProductsState,
     (state) => state.loading
