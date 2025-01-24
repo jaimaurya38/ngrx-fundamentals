@@ -13,14 +13,14 @@ import { selectProducts, selectProductsLoading, selectProductsShowProductCode, s
 export class ProductsPageComponent {
   products$ = this.store.select(selectProducts);
   total$ = this.store.select(selectProductsTotal);
-  totalProductCount$ = this.store.select(selectProductsCount);
+  //totalProductCount$ = this.store.select(selectProductsCount);
   loading$ = this.store.select(selectProductsLoading);
   //fetch value from store using (selector state-slice)
   showProductCode$ = this.store.select(selectProductsShowProductCode);
   errorMessage$ = this.store.select(selectProductsErrorMessage);
 
   constructor(private store: Store) {
-    this.store.subscribe((store) => console.log(store));
+    //this.store.subscribe((store) => console.log(store));
   }
 
   // ngOnInit() {

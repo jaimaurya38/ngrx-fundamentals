@@ -3,16 +3,19 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ProductsService } from "../products.service";
 import { ProductsAPIActions, ProductsPageActions } from "./products.actions";
 import { Product } from "../product.model";
-import { catchError, concatMap, exhaustMap, map, mergeMap, of } from "rxjs";
+import { catchError, concatMap, exhaustMap, map, mergeMap, of, tap } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class ProductEffects {
+
     constructor(
         private actions$: Actions,
-        private productsService: ProductsService
+        private productsService: ProductsService,
+        private router: Router
     ) { }
 
-    ngrxOnInitEffects(){
+    ngrxOnInitEffects() {
         return ProductsPageActions.loadProducts();
     }
 
@@ -58,15 +61,13 @@ export class ProductEffects {
     updateProducts$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ProductsPageActions.updateProduct),
-            exhaustMap(({ product }) =>
-                this.productsService
-                    .update(product)
-                    .pipe(
-                        map((product: Product) => ProductsAPIActions.productsUpdatedSuccess({ product })),
-                        catchError(
-                            (error) => of(ProductsAPIActions.productsUpdatedFail({ message: error }))
-                        )
+            concatMap(({ product }) =>
+                this.productsService.update(product).pipe(
+                    map(() => ProductsAPIActions.productsUpdatedSuccess({ product })),
+                    catchError(
+                        (error) => of(ProductsAPIActions.productsUpdatedFail({ message: error }))
                     )
+                )
             )
         )
     );
@@ -86,4 +87,19 @@ export class ProductEffects {
             )
         )
     );
+
+    redirectToProductPage = createEffect(() =>
+        this.actions$.pipe(
+            ofType(
+                ProductsAPIActions.productsAddedSuccess,
+                ProductsAPIActions.productsUpdatedSuccess,
+                ProductsAPIActions.productsDeletedSuccess
+            ),
+            tap(() => {
+                this.router.navigate(['/products'])
+            })
+        )
+        , {
+            dispatch: false
+        })
 }
