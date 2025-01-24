@@ -12,6 +12,10 @@ export class ProductEffects {
         private productsService: ProductsService
     ) { }
 
+    ngrxOnInitEffects(){
+        return ProductsPageActions.loadProducts();
+    }
+
     /* 
         concatMap => Race condition is "NOT" possible -> Runs subscription/request in order and is less perform (when order is importent)
         mergeMap => Race condition is possible -> Runs subscription/request in Parller and when order is "NOT" importent

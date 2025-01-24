@@ -1,3 +1,4 @@
+ <!-- <span>{{product$ | async | json}}</span> -->
 <div *ngIf="(product$ | async) !== undefined; else loadingElement">
   <app-product-edit
     (add)="addProduct($event)"

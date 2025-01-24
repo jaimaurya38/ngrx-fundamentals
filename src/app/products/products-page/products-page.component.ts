@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ProductsService } from '../products.service';
+//import { ProductsService } from '../products.service';
 import { Store } from '@ngrx/store';
 import { ProductsPageActions } from '../state/products.actions';
 import { selectProducts, selectProductsLoading, selectProductsShowProductCode, selectProductsCount, selectProductsTotal, selectProductsErrorMessage } from '../state/products.selectors';
@@ -23,9 +23,11 @@ export class ProductsPageComponent {
     this.store.subscribe((store) => console.log(store));
   }
 
-  ngOnInit() {
-    this.store.dispatch(ProductsPageActions.loadProducts())
-  }
+  // ngOnInit() {
+  //   this.store.dispatch(ProductsPageActions.loadProducts())
+  // }
+
+  //rid off ngOnInit because calling from effect-onint hook
 
   toggleShowProductCode() {
     // update state by calling dispatch
